@@ -39,7 +39,8 @@ int main(int argc, char* argv[]) {
                     exit(1);
                 }
             }
-            Perceptron prcp(dataBase.at(0).getSize(),1);
+
+            Perceptron prcp(dataBase.at(0).getSize(),k);
             for(Node &a : dataBase)
                 prcp.teach(a);
         }

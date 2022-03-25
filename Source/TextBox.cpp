@@ -1,5 +1,5 @@
 #include <SFML/Graphics/Color.hpp>
-#include "../Headers/TextBox.h"
+#include "../Header/TextBox.h"
 
 Textbox::Textbox(int size,sf::Color color, bool sel)
 {

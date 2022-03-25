@@ -15,7 +15,9 @@ public:
 
 
 private:
-    std::vector<double> weights;
-    double power;
-    double threshold;
+    std::vector<double>     _weights;
+    double                  _power;
+    double                  _threshold;
+    std::string             _firstCase;
+    std::string             _secondCase;
 };

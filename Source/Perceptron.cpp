@@ -53,7 +53,7 @@ std::vector<double> Perceptron::getVector()
 
 void Perceptron::setVector(const std::vector<double>& newVector)
 {
-    if(newVector.size() != this->_power)
+    if(newVector.size() == this->_power-1)
         this->_weights = newVector;
 }
 

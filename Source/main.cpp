@@ -7,6 +7,9 @@
 #include "../Header/Perceptron.h"
 #include <SFML/Graphics.hpp>
 #define ARGS_NUMBER argc-1
+
+
+
 int main(int argc, char* argv[]) {
 
     if (ARGS_NUMBER == 3) {
@@ -40,25 +43,13 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            Perceptron prcp(dataBase.at(0).getSize()-1,k);
+            Perceptron prcp(dataBase.at(0).getSize(),k);
             prcp = ai::teachPerceptron(prcp,dataBase, k);
             prcp = ai::teachPerceptron(prcp,dataBase, k);;
             prcp = ai::teachPerceptron(prcp,dataBase, k);
 
-            for(double value : prcp._weights)
-            {
-                std::cout<<value<<", ";
-            }
-            std::cout<<'\n'<<prcp._threshold<<'\n';
 
-
-            for(Node& testOne : testDataBase)
-            {
-                prcp.findClass(testOne);
-                std::cout<< "["<<testOne.getClass()<<']'<<'\n';
-            }
-
-
+            ai::testCases(prcp,testDataBase);
         }
     }
 }

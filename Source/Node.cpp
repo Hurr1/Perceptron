@@ -4,7 +4,7 @@
 
 int Node::_count = 0;
 
-Node::Node(std::vector<double> attrs,std::string lastAttr,int size)
+Node::Node(std::vector<double>&& attrs,std::string lastAttr,std::size_t size)
         : _attrs(std::move(attrs)), _lastAttr(std::move(lastAttr)),_size(size),_index(_count++)
 {}
 

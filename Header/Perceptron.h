@@ -6,19 +6,23 @@
 class Perceptron
 {
 public:
-    Perceptron(int pow, double threshold);
+    Perceptron(std::size_t pow, double threshold);
     ~Perceptron() = default;
 
-    double at(int index) const;
-    double getThreshold() const;
-    void teach(Node& a,double alpha);
+    [[nodiscard]] double getThreshold() const;
+    [[nodiscard]] double at(std::size_t index) const;
+
+    void teach(Node& a,double alpha, int& fails);
     void findClass(Node& node);
+    void setThreshold(double value);
+    void setVector(const std::vector<double>& newVector);
 
+    std::string getClassAt(std::size_t index);
+    std::vector<double> getVector();
 
-public:
-    std::vector<double>             _weights;
-    double                          _power;
+private:
+    std::size_t                      _power;
     double                          _threshold;
-    std::vector<std::string>        cases;
-
+    std::vector<std::string>        _cases;
+    std::vector<double>             _weights;
 };

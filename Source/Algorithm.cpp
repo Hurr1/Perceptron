@@ -92,7 +92,7 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y, 
     prc->setThreshold(res.at(res.size()-1));
     res.pop_back();
 
-    prc->setVector(res);
+    prc->setVector(std::move(res));
 }
 
 std::vector<double> ai::multiply(std::vector<double> vector,double factor)

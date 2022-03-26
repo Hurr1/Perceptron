@@ -15,7 +15,7 @@ public:
     void teach(Node& a,double alpha, int& fails);
     void findClass(Node& node);
     void setThreshold(double value);
-    void setVector(const std::vector<double>& newVector);
+    void setVector(std::vector<double>&& newVector);
 
     std::string getClassAt(std::size_t index);
     std::vector<double> getVector();

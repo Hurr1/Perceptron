@@ -51,10 +51,10 @@ std::vector<double> Perceptron::getVector()
     return this->_weights;
 }
 
-void Perceptron::setVector(const std::vector<double>& newVector)
+void Perceptron::setVector(std::vector<double>&& newVector)
 {
     if(newVector.size() == this->_power-1)
-        this->_weights = newVector;
+        this->_weights = std::move(newVector);
 }
 
 double Perceptron::at(std::size_t index) const

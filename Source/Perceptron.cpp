@@ -1,10 +1,10 @@
 #include "../Header/Perceptron.h"
 #include "../Header/Algorithm.h"
-Perceptron::Perceptron(int pow, int threshold)
-        : _power(pow), _threshold(threshold), _firstCase("Iris-setosa"), _secondCase("Iris-virginica")
+Perceptron::Perceptron(int pow, double threshold)
+        : _power(pow), _threshold(threshold), cases(std::vector<std::string>{"Iris-setosa","Iris-virginica"})
 {
     for (int i = 0; i < _power; i++)
-        _weights.emplace_back(0);
+        _weights.emplace_back(1);
 }
 
 double Perceptron::at(int index) const
@@ -17,10 +17,19 @@ double Perceptron::getThreshold() const
     return this->_threshold;
 }
 
-void Perceptron::teach(Node &a)
+void Perceptron::teach(Node &a,double alpha)
 {
-    double dotProduct = ai::dotProduct( this->_weights, a.getVector() );
-
+    double dotProduct = ai::dotProduct( this->_weights, a._attrs );
     int y = dotProduct < this->_threshold ? 0 : 1;
+    int d;
+    if( !cases.at(y).compare(a.getClass()) )
+    {
+        y == 0 ? d = 1 : d = 0;
+        ai::deltaAlgorithm(this, a.getVector(),d,y, this->getThreshold(),dotProduct,alpha);
+        std::cout<<"UnSuccess"<<'\n';
+        this->teach(a,alpha);
+    }
+    else
+        std::cout<<"Success"<<'\n';
 }
 

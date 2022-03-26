@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
         if (trainSet && testSet)
         {
-            int k = std::atoi((argv[1]));
+            double k = std::stod(argv[1]);
 
             dataBase = ai::createDB(trainSet);
             testDataBase = ai::createTestDB(testSet);
@@ -40,9 +40,15 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            Perceptron prcp(dataBase.at(0).getSize(),k);
+            Perceptron prcp(dataBase.at(0).getSize()-1,k);
             for(Node &a : dataBase)
-                prcp.teach(a);
+                prcp.teach(a,k);
+
+            std::cout<<"------------------------------------------"<<'\n';
+            for(double value : prcp._weights)
+            {
+                std::cout<<value<<", ";
+            }
         }
     }
 }

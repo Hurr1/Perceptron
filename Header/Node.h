@@ -22,7 +22,8 @@ public:
     std::size_t getSize() const;
     std::string getClass() const;
     std::vector<double> getVector();
-private:
+
+public:
     std::vector<double>     _attrs;
     std::string             _lastAttr;
     std::size_t             _size;

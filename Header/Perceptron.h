@@ -12,6 +12,7 @@ public:
     double at(int index) const;
     double getThreshold() const;
     void teach(Node& a,double alpha);
+    void findClass(Node& node);
 
 
 public:

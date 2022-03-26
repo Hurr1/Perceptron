@@ -26,10 +26,17 @@ void Perceptron::teach(Node &a,double alpha)
     {
         y == 0 ? d = 1 : d = 0;
         ai::deltaAlgorithm(this, a.getVector(),d,y, this->getThreshold(),dotProduct,alpha);
-        std::cout<<"UnSuccess"<<'\n';
+        std::cout<<"UnSuccess"<<"["<<a._index<<']'<<'\n';
         this->teach(a,alpha);
     }
     else
-        std::cout<<"Success"<<'\n';
+        std::cout<<"Success"<<"["<<a._index<<']'<<'\n';
+}
+
+void Perceptron::findClass(Node &node)
+{
+    double dotProduct = ai::dotProduct( this->_weights, node._attrs);
+    int y = dotProduct < this->_threshold ? 0 : 1;
+    node.setClass(this->cases.at(y));
 }
 

@@ -23,7 +23,10 @@ public:
     std::string getClass() const;
     std::vector<double> getVector();
 
+
 public:
+    static int              _count;
+    int                     _index;
     std::vector<double>     _attrs;
     std::string             _lastAttr;
     std::size_t             _size;

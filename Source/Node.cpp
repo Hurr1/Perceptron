@@ -2,8 +2,10 @@
 #include <utility>
 #include "../Header/Node.h"
 
+int Node::_count = 0;
+
 Node::Node(std::vector<double> attrs,std::string lastAttr,int size)
-        : _attrs(std::move(attrs)), _lastAttr(std::move(lastAttr)),_size(size)
+        : _attrs(std::move(attrs)), _lastAttr(std::move(lastAttr)),_size(size),_index(_count++)
 {}
 
 double Node::at(int index) const

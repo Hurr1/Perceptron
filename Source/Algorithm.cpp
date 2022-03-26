@@ -49,12 +49,23 @@ double ai::dotProduct(std::vector<double> weights, std::vector<double>inputs)
     return dotProduct;
 }
 
+Perceptron ai::teachPerceptron(Perceptron p, std::vector<Node>&trainingSet, double delta)
+{
+    for(Node &a : trainingSet)
+        p.teach(a,delta);
+
+    return p;
+}
+
 void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y,double threshold,double dotProduct,double alpha)
 {
     std::vector<double>res;
+
     input.push_back(dotProduct);
     prc->_weights.push_back(prc->_threshold);
+
     input = ai::multiply(input,(d-y)*alpha);
+
     res = ai::sumVectors(prc->_weights, input);
 
     prc->_threshold = res.at(res.size()-1);
@@ -64,18 +75,12 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y,d
 
 std::vector<double> ai::multiply(std::vector<double> vector,double factor)
 {
-    for(int i = 0;i<vector.size();i++)
-    {
-        vector.at(i) = vector.at(i) * factor;
-    }
+    std::for_each(vector.begin(),vector.end(),[factor](double &value){value *= factor;});
     return vector;
 }
 
 std::vector<double> ai::sumVectors(std::vector<double>first,std::vector<double>second)
 {
-    for(int i = 0;i<first.size();i++)
-    {
-        first.at(i) = first.at(i) + second.at(i);
-    }
+    std::transform (first.begin(), first.end(), second.begin(), first.begin(), std::plus<double>());
     return first;
 }

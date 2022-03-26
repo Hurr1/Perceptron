@@ -23,4 +23,6 @@ namespace ai {
 
     std::vector<double> sumVectors(std::vector<double>first,std::vector<double>second);
 
+    Perceptron teachPerceptron(Perceptron p, std::vector<Node>&trainingSet, double delta);
+
 }

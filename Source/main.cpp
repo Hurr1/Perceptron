@@ -41,14 +41,24 @@ int main(int argc, char* argv[]) {
             }
 
             Perceptron prcp(dataBase.at(0).getSize()-1,k);
-            for(Node &a : dataBase)
-                prcp.teach(a,k);
+            prcp = ai::teachPerceptron(prcp,dataBase, k);
+            prcp = ai::teachPerceptron(prcp,dataBase, k);;
+            prcp = ai::teachPerceptron(prcp,dataBase, k);
 
-            std::cout<<"------------------------------------------"<<'\n';
             for(double value : prcp._weights)
             {
                 std::cout<<value<<", ";
             }
+            std::cout<<'\n'<<prcp._threshold<<'\n';
+
+
+            for(Node& testOne : testDataBase)
+            {
+                prcp.findClass(testOne);
+                std::cout<< "["<<testOne.getClass()<<']'<<'\n';
+            }
+
+
         }
     }
 }

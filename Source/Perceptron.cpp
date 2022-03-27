@@ -17,7 +17,7 @@ void Perceptron::teach(Node &a,double alpha, int& fails)
     double dotProduct = ai::dotProduct( this->_weights, a.getVector() );
     int y = dotProduct >= this->_threshold ? 1 : 0;
     int d;
-    if( !_cases.at(y).compare(a.getClass()) ) [[unlikely]]
+    if( !_cases.at(y).compare(a.getClass()) == 0) [[unlikely]]
     {
         y == 0 ? d = 1 : d = 0;
         ai::deltaAlgorithm(this, a.getVector(), d, y, dotProduct, alpha);
@@ -32,18 +32,13 @@ void Perceptron::teach(Node &a,double alpha, int& fails)
 void Perceptron::findClass(Node &node)
 {
     double dotProduct = ai::dotProduct( this->_weights, node.getVector());
-    int y = dotProduct < this->_threshold ? 0 : 1;
+    int y = dotProduct >= this->_threshold ? 1 : 0;
     node.setClass(this->_cases.at(y));
 }
 
 void Perceptron::setThreshold(double value)
 {
     this->_threshold = value;
-}
-
-std::string Perceptron::getClassAt(std::size_t index)
-{
-    return this->_cases.at(index);
 }
 
 std::vector<double> Perceptron::getVector()

@@ -16,8 +16,6 @@ public:
     void findClass(Node& node);
     void setThreshold(double value);
     void setVector(std::vector<double>&& newVector);
-
-    std::string getClassAt(std::size_t index);
     std::vector<double> getVector();
 
 private:

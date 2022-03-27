@@ -24,22 +24,6 @@ std::vector<Node> ai::createDB(std::istream& str)
     return data;
 }
 
-std::vector<Node> ai::createTestDB(std::ifstream& str)
-{
-    CSVRow row;
-    std::vector<Node> data;
-    std::vector<double>toAdd;
-
-    while(str >> row)
-    {
-        for(int i = 0; i< row.size()-1;i++)
-            toAdd.emplace_back(std::stod(row[i]));
-        data.emplace_back(Node(std::forward<std::vector<double>>(toAdd),"UNDEFIEND",row.size()));
-        toAdd.clear();
-    }
-    return data;
-}
-
 double ai::dotProduct(std::vector<double> weights, std::vector<double>inputs)
 {
     double dotProduct = 0;
@@ -115,4 +99,102 @@ void ai::testCases(Perceptron& perceptron, std::vector<Node>& dataBase)
         perceptron.findClass(testOne);
         std::cout<< "[" << index++ << ']' << "["<<testOne.getClass()<<']'<<'\n';
     }
+}
+
+std::vector<Node> ai::tokenize(std::string s,Textbox& input, std::size_t size, std::string del = " ")
+{
+
+    size_t start;
+    size_t end = 0;
+    std::vector<double> toAdd;
+
+    try {
+        while ((start = s.find_first_not_of(del, end)) != std::string::npos)
+        {
+            end = s.find(del, start);
+            toAdd.push_back(std::stod(s.substr(start, end - start)));
+
+        }
+        std::vector<Node> res;
+        res.emplace_back(Node(std::move(toAdd), "UNDERFINED", size));
+        if(toAdd.size()<size-1)
+        {
+            input.textbox.setString("Vector is too small");
+            return {};
+        }
+        else if(toAdd.size()>size-1)
+        {
+            input.textbox.setString("Vector is too big");
+            return {};
+        }
+        return res;
+    }
+    catch (std::exception& e)
+    {
+        input.textbox.setString("Not a vector");
+        return std::vector<Node>();
+    }
+}
+
+std::vector<std::pair<std::string,std::pair<int,int>>> ai::getAxes()
+{
+    std::vector<std::pair<std::string,std::pair<int,int>>>axes;
+    axes.emplace_back("X & Y",std::make_pair(0,1));
+
+    axes.emplace_back("X & Z",std::make_pair(0,2));
+    axes.emplace_back("Y & Z",std::make_pair(1,2));
+
+    axes.emplace_back("X & W",std::make_pair(0,3));
+    axes.emplace_back("Y & W",std::make_pair(1,3));
+    axes.emplace_back("Z & W",std::make_pair(2,3));
+
+    axes.emplace_back("X & V",std::make_pair(0,4));
+    axes.emplace_back("Y & V",std::make_pair(1,4));
+    axes.emplace_back("Z & V",std::make_pair(2,4));
+    axes.emplace_back("W & V",std::make_pair(3,4));
+
+    axes.emplace_back("X & U",std::make_pair(0,5));
+    axes.emplace_back("Y & U",std::make_pair(1,5));
+    axes.emplace_back("Z & U",std::make_pair(2,5));
+    axes.emplace_back("W & U",std::make_pair(3,5));
+    axes.emplace_back("V & U",std::make_pair(4,5));
+
+    axes.emplace_back("X & R",std::make_pair(0,6));
+    axes.emplace_back("Y & R",std::make_pair(1,6));
+    axes.emplace_back("Z & R",std::make_pair(2,6));
+    axes.emplace_back("W & R",std::make_pair(3,6));
+    axes.emplace_back("V & R",std::make_pair(4,6));
+    axes.emplace_back("U & R",std::make_pair(5,6));
+
+    axes.emplace_back("X & S",std::make_pair(0,7));
+    axes.emplace_back("Y & S",std::make_pair(1,7));
+    axes.emplace_back("Z & S",std::make_pair(2,7));
+    axes.emplace_back("W & S",std::make_pair(3,7));
+    axes.emplace_back("V & S",std::make_pair(4,7));
+    axes.emplace_back("U & S",std::make_pair(5,7));
+    axes.emplace_back("R & S",std::make_pair(6,7));
+
+    axes.emplace_back("X & T",std::make_pair(0,8));
+    axes.emplace_back("Y & T",std::make_pair(1,8));
+    axes.emplace_back("Z & T",std::make_pair(2,8));
+    axes.emplace_back("W & T",std::make_pair(3,8));
+    axes.emplace_back("V & T",std::make_pair(4,8));
+    axes.emplace_back("U & T",std::make_pair(5,8));
+    axes.emplace_back("R & T",std::make_pair(6,8));
+    axes.emplace_back("S & T",std::make_pair(7,8));
+
+    return axes;
+}
+
+int ai::factorial(int n)
+{
+    int res = 1;
+    for (int i = 2; i <= n; i++)
+        res = res * i;
+    return res;
+}
+
+int ai::comb(int N, int K)
+{
+    return ai::factorial(N) / (ai::factorial(K) * ai::factorial(N - K));
 }

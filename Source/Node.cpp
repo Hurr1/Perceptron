@@ -8,19 +8,6 @@ Node::Node(std::vector<double>&& attrs,std::string lastAttr,std::size_t size)
         : _attrs(std::move(attrs)), _lastAttr(std::move(lastAttr)),_size(size),_index(_count++)
 {}
 
-double Node::at(int index) const
-{
-    return this->_attrs[index];
-}
-
-
-void Node::printNode() const
-{
-    for(double i : _attrs)
-        std::cout<<"["<<i<<']';
-    std::cout<<"["<<_lastAttr<<']'<<'\n';
-}
-
 std::size_t Node::getSize() const
 {
     return this->_size;
@@ -45,7 +32,7 @@ void Node::setColor(sf::Color color)
 {
     this->_color = color;
 }
- */
+*/
 
 std::vector<double> Node::getVector()
 {

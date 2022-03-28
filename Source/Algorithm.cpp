@@ -66,7 +66,7 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y, 
     std::vector<double> weights = prc->getVector();
 
     input.push_back(dotProduct);
-    weights.push_back(prc->getThreshold());
+    weights.push_back(-1);
 
     input = ai::multiply(std::move(input),(d-y)*alpha);
 
@@ -107,13 +107,18 @@ void ai::drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& dat
         level = 0;
     for (Node &node: data)
     {
-        point.setPosition(
-                {static_cast<float>((node.at(axes.at(level).second.first))*100), static_cast<float>((node.at(axes.at(level).second.second))*100)}
+        point.setPosition
+        (
+                {
+                    static_cast<float>((node.at(axes.at(level).second.first))*100),
+                    static_cast<float>((node.at(axes.at(level).second.second))*100)
+                }
         );
         point.setFillColor(node.getColor());
         rn.draw(point);
 
     }
+
     header.setString(axes.at(level).first);
     rn.draw(header);
 

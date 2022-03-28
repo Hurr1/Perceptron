@@ -1,7 +1,6 @@
 #include <iomanip>
 #include "../Header/Algorithm.h"
 #include "../Header/CSVRow.h"
-#include "../Header/Perceptron.h"
 
 std::istream& operator>>(std::istream& str, CSVRow& data)
 {
@@ -45,7 +44,7 @@ Perceptron ai::teachPerceptron(Perceptron perceptron, std::vector<Node>&training
     {
         stream << perceptron.at(i);
         s = stream.str();
-        weightsString = weightsString + s + "|";
+        weightsString += s + "|";
         stream.str("");
     }
 
@@ -69,9 +68,9 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y, 
     input.push_back(dotProduct);
     weights.push_back(prc->getThreshold());
 
-    input = ai::multiply(input,(d-y)*alpha);
+    input = ai::multiply(std::move(input),(d-y)*alpha);
 
-    res = ai::sumVectors(weights, input);
+    res = ai::sumVectors(std::move(weights), std::move(input));
 
     prc->setThreshold(res.at(res.size()-1));
     res.pop_back();
@@ -79,13 +78,48 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y, 
     prc->setVector(std::move(res));
 }
 
-std::vector<double> ai::multiply(std::vector<double> vector,double factor)
+std::vector<double> ai::multiply(std::vector<double> &&vector,double factor)
 {
     std::for_each(vector.begin(),vector.end(),[factor](double &value){value *= factor;});
     return vector;
 }
 
-std::vector<double> ai::sumVectors(std::vector<double>first,std::vector<double>second)
+void ai::setNodesColor(std::vector<Node> &dataBase)
+{
+    for (Node &node: dataBase)
+    {
+        node.getClass().compare("Iris-setosa") == 0 ? node.setColor(sf::Color::Red) : node.setColor(sf::Color::Green);
+    }
+}
+
+void ai::setNodeColor(Node & node)
+{
+    node.getClass().compare("Iris-setosa") == 0 ? node.setColor(sf::Color::Red) : node.setColor(sf::Color::Green);
+}
+
+void ai::drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& data, sf::CircleShape& point, int& level, std::vector<std::pair<std::string,std::pair<int,int>>> axes,short lastPage)
+{
+    if(level >= lastPage)
+        level = 0;
+    else if(level < 0)
+        level = ai::comb(data.at(0).getSize()-1,2) -1;
+    if(ai::comb(data.at(0).getSize()-1,2) -1 == -1)
+        level = 0;
+    for (Node &node: data)
+    {
+        point.setPosition(
+                {static_cast<float>((node.at(axes.at(level).second.first))*100), static_cast<float>((node.at(axes.at(level).second.second))*100)}
+        );
+        point.setFillColor(node.getColor());
+        rn.draw(point);
+
+    }
+    header.setString(axes.at(level).first);
+    rn.draw(header);
+
+}
+
+std::vector<double> ai::sumVectors(std::vector<double>&& first,std::vector<double>&& second)
 {
     std::transform (first.begin(), first.end(), second.begin(), first.begin(), std::plus<double>());
     return first;
@@ -101,9 +135,8 @@ void ai::testCases(Perceptron& perceptron, std::vector<Node>& dataBase)
     }
 }
 
-std::vector<Node> ai::tokenize(std::string s,Textbox& input, std::size_t size, std::string del = " ")
+Node ai::tokenize(const std::string& s,Textbox& input, std::size_t size, const std::string& del = " ")
 {
-
     size_t start;
     size_t end = 0;
     std::vector<double> toAdd;
@@ -115,24 +148,26 @@ std::vector<Node> ai::tokenize(std::string s,Textbox& input, std::size_t size, s
             toAdd.push_back(std::stod(s.substr(start, end - start)));
 
         }
-        std::vector<Node> res;
-        res.emplace_back(Node(std::move(toAdd), "UNDERFINED", size));
-        if(toAdd.size()<size-1)
+        std::size_t vecSize = toAdd.size();
+        Node node (std::move(toAdd), "UNDERFINED", size);
+
+        if(node.getVector().size()<size-1)
         {
             input.textbox.setString("Vector is too small");
-            return {};
+            return {{},"ERROR",0};
         }
-        else if(toAdd.size()>size-1)
+        else if(node.getVector().size()>size-1)
         {
             input.textbox.setString("Vector is too big");
-            return {};
+            return {{},"ERROR",0};
         }
-        return res;
+
+        return node;
     }
     catch (std::exception& e)
     {
         input.textbox.setString("Not a vector");
-        return std::vector<Node>();
+        return {{},"ERROR",0};
     }
 }
 
@@ -194,7 +229,7 @@ int ai::factorial(int n)
     return res;
 }
 
-int ai::comb(int N, int K)
+int ai::comb(std::size_t N, int K)
 {
-    return ai::factorial(N) / (ai::factorial(K) * ai::factorial(N - K));
+    return ai::factorial(static_cast<int>(N)) / (ai::factorial(K) * ai::factorial(static_cast<int>(N) - K));
 }

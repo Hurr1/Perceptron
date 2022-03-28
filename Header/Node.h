@@ -11,15 +11,16 @@ public:
     ~Node() = default;
 
     void setClass(std::string newClass);
-/*
     void setColor(sf::Color color);
-    sf::Color getColor() const;
-*/
 
+    [[nodiscard]] double at(int index) const;
+    [[nodiscard]] sf::Color getColor() const;
 
-    std::size_t getSize() const;
-    std::string getClass() const;
+    [[nodiscard]] std::size_t getSize() const;
+    [[nodiscard]] std::string getClass() const;
+
     std::vector<double> getVector();
+
 
 public:
     static int              _count;
@@ -29,7 +30,6 @@ private:
     std::vector<double>     _attrs;
     std::string             _lastAttr;
     std::size_t             _size;
-
-    //sf::Color               _color;
+    sf::Color               _color;
 
 };

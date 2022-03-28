@@ -13,10 +13,11 @@ public:
     [[nodiscard]] double at(std::size_t index) const;
 
     void teach(Node& a,double alpha, int& fails);
-    void findClass(Node& node);
+    void findClass(Node &node);
     void setThreshold(double value);
     void setVector(std::vector<double>&& newVector);
-    std::vector<double> getVector();
+
+    [[nodiscard]] std::vector<double> getVector() const;
 
 private:
     std::size_t                      _power;

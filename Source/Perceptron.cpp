@@ -1,10 +1,10 @@
 #include "../Header/Perceptron.h"
 #include "../Header/Algorithm.h"
 Perceptron::Perceptron(std::size_t pow, double threshold)
-        : _power(pow), _threshold(threshold), _cases(std::vector<std::string>{"Iris-setosa","Iris-virginica"})
+        : _power(pow), _threshold(threshold), _cases(std::vector<std::string>{"Iris-virginica","Iris-setosa"})
 {
     for (int i = 0; i < _power - 1; i++)
-        _weights.emplace_back(1);
+        _weights.emplace_back(0);
 }
 
 double Perceptron::getThreshold() const
@@ -41,7 +41,7 @@ void Perceptron::setThreshold(double value)
     this->_threshold = value;
 }
 
-std::vector<double> Perceptron::getVector()
+std::vector<double> Perceptron::getVector() const
 {
     return this->_weights;
 }

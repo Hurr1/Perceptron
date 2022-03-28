@@ -20,19 +20,23 @@ std::string Node::getClass() const
 
 void Node::setClass(std::string newClass)
 {
-    this->_lastAttr = newClass;
+    this->_lastAttr = std::move(newClass);
 }
-/*
+
 sf::Color Node::getColor() const
 {
-    return _color;
+    return this->_color;
 }
 
 void Node::setColor(sf::Color color)
 {
     this->_color = color;
 }
-*/
+
+double Node::at(int index) const
+{
+    return this->_attrs.at(index);
+}
 
 std::vector<double> Node::getVector()
 {

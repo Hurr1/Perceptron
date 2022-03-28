@@ -93,7 +93,7 @@ int main(int argc, char* argv[]) {
                 rn.clear();
 
                 rn.draw(bgSprite);
-                ai::drawPoints(rn,header,dataBase,point,axis,axes,lastPage);
+                ai::drawPoints(rn,header,dataBase,point,axis,axes,lastPage,prcp);
                 InputBox.drawTo(rn);
                 vectorButton.drawTo(rn);
 

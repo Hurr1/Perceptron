@@ -65,8 +65,8 @@ void ai::deltaAlgorithm(Perceptron* prc, std::vector<double>input,int d, int y, 
     std::vector<double> res = {};
     std::vector<double> weights = prc->getVector();
 
-    input.push_back(dotProduct);
-    weights.push_back(-1);
+    input.push_back(-1);
+    weights.push_back(prc->getThreshold());
 
     input = ai::multiply(std::move(input),(d-y)*alpha);
 
@@ -97,7 +97,7 @@ void ai::setNodeColor(Node & node)
     node.getClass().compare("Iris-setosa") == 0 ? node.setColor(sf::Color::Red) : node.setColor(sf::Color::Green);
 }
 
-void ai::drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& data, sf::CircleShape& point, int& level, std::vector<std::pair<std::string,std::pair<int,int>>> axes,short lastPage)
+void ai::drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& data, sf::CircleShape& point, int& level, std::vector<std::pair<std::string,std::pair<int,int>>> axes,short lastPage,Perceptron perceptron)
 {
     if(level >= lastPage)
         level = 0;
@@ -114,14 +114,14 @@ void ai::drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& dat
                     static_cast<float>((node.at(axes.at(level).second.second))*100)
                 }
         );
+
         point.setFillColor(node.getColor());
         rn.draw(point);
 
-    }
 
+    }
     header.setString(axes.at(level).first);
     rn.draw(header);
-
 }
 
 std::vector<double> ai::sumVectors(std::vector<double>&& first,std::vector<double>&& second)

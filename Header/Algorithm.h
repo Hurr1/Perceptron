@@ -31,7 +31,7 @@ namespace ai {
 
     std::vector<std::pair<std::string,std::pair<int,int>>> getAxes();
 
-    void drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& data, sf::CircleShape& point, int& level, std::vector<std::pair<std::string,std::pair<int,int>>> axes,short lastPage);
+    void drawPoints(sf::RenderWindow& rn,sf::Text header, std::vector<Node>& data, sf::CircleShape& point, int& level, std::vector<std::pair<std::string,std::pair<int,int>>> axes,short lastPage, Perceptron perceptron);
 
     int comb(std::size_t N, int K);
 

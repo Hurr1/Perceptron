@@ -22,7 +22,6 @@ void Perceptron::teach(Node &a,double alpha, int& fails)
         y == 0 ? d = 1 : d = 0;
         ai::deltaAlgorithm(this, a.getVector(), d, y, dotProduct, alpha);
         std::cout<<"UnSuccess"<<"["<<a._index<<']'<<" Trying again."<<'\n';
-        this->teach(a,alpha, fails);
         fails++;
     }
     else
